@@ -1008,6 +1008,9 @@ static void update_menu_key_equivalents (NSMenu* menu, action_to_key_t const& ac
 - (void)interpretKeyEvents:(NSArray*)someEvents
 {
 	AUTO_REFRESH;
+	if([self hasMarkedText])
+		return [super interpretKeyEvents:someEvents];
+
 	for(NSEvent* event in someEvents)
 	{
 		plist::dictionary_t::const_iterator pair = KeyEventContext->find(to_s(event));
