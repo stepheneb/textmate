@@ -2,6 +2,8 @@
 
 This repository contains the source code for TextMate 2, a text editor for OS X 10.7+.
 
+![textmate](https://raw.github.com/textmate/textmate/gh-pages/images/screenshot.png)
+
 # Building
 
 To bootstrap the build you need to run `./configure` (in the root of the source tree). You can set a few (environment) variables read by this script that change the generated build file:
@@ -120,7 +122,25 @@ You can send pull requests via GitHub. Patches should:
 5. Rebase your branch against the upstream’s master. We don’t want to pull redundant merge commits.
 6. **Be clear about what license applies to your patch:** The files within this repository are under the [GPL 3][] (or later) but (as the original creator) we are still allowed to create non-free derivatives. However, if patches are given to us under GPL then those cannot make it into any non-free derivatives we may later wish to create. So to make it easier for us (and avoid any legal issues) we prefer if patches are released as public domain.
 
-There is both the [textmate-dev][] mailing list and [##textmate][] IRC channel at [freenode.net][] where this project can be discussed.
+There is both the [textmate-dev][] mailing list and [#textmate][] IRC channel at [freenode.net][] where this project can be discussed.
+
+## Changing a xib File
+
+When you change a `xib` file then please look at the diff before you push. If the diff seems to have a lot of changes unrelated to what actually did change, please revert back to `HEAD` and open the pristine `xib` in Xcode and save that (without changing anything).
+
+Commit this saved `xib` with a commit message of `Save xib file with Xcode «version»`. Here version is the version of Xcode you are using, but be sure you don’t downgrade the format. To check the version that `resources/English.lproj/MainMenu.xib` was last saved with, you can run (add appropriate grep if desired):
+
+	git log --oneline resources/English.lproj/MainMenu.xib
+
+You can safely assume that all `xib` files without such message are saved with Xcode 4.4 or earlier (i.e. you won’t downgrade them).
+
+After this, re-apply your change and commit. If the change is non-trivial it is a good idea to write how you made the change in the commit body. E.g. a commit message could be:
+
+	Only enable install button when we can install
+	
+	The install button’s “enabled” property
+	has been bound to the “canInstall”
+	property of File’s Owner.
 
 # Legal
 
@@ -140,5 +160,5 @@ TextMate is a trademark of Allan Odgaard.
 [CxxTest]:       https://github.com/sorbits/cxxtest.tmbundle
 [GPL 3]:         http://www.gnu.org/copyleft/gpl.html
 [textmate-dev]:  http://lists.macromates.com/listinfo/textmate-dev
-[##textmate]:    irc://irc.freenode.net/##textmate
+[#textmate]:     irc://irc.freenode.net/#textmate
 [freenode.net]:  http://freenode.net/
